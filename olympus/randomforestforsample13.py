@@ -13,7 +13,8 @@ data = pd.read_excel('MasterDataFile.xlsx')
 
 data['Departure_Arrival'] = data['Departure_Arrival'].map({'GBSOU - USNYC': 0, 'USNYC - GBSOU': 1})
 
-
+#filtra
+data = data[data['QM2_NAV_STW_Longitudinal'] >= 8]
 # Data Preprocessing: Drop rows with missing values
 cleaned_data = data.dropna()
 
