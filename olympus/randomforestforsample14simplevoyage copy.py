@@ -8,34 +8,40 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import plot_tree
 
 # Load your data (replace 'MasterDataFile.xlsx' with your actual file path)
-data = pd.read_excel('MasterDataFile.xlsx')
+data = pd.read_excel('SummaryDataFile.xlsx')
 
 
 data['Departure_Arrival'] = data['Departure_Arrival'].map({'GBSOU - USNYC': 0, 'USNYC - GBSOU': 1})
 
-#filtra
-data = data[data['QM2_NAV_STW_Longitudinal'] >= 8]
+# data = data[data['QM2_NAV_STW_Longitudinal'] >= 8]
 
 # Data Preprocessing: Drop rows with missing values
 cleaned_data = data.dropna()
 
 # Feature Selection: Exclude non-numeric and target variable columns
-features = cleaned_data.drop(['Voyage', 'Time', 'Total_Fuel_Consumption', 'Avg Fuel Consumption', 'QM2_Boiler_Aft_Usage_Mass_Flow','QM2_Boiler_Fwd_Usage_Mass_Flow', 'QM2_DG01_Usage_Mass_Flow',
-    'QM2_DG02_Usage_Mass_Flow',
-    'QM2_DG03_Usage_Mass_Flow',
-    'QM2_DG04_Usage_Mass_Flow',
-    'QM2_GT01_Usage_Mass_Flow',
-    'QM2_GT02_Usage_Mass_Flow','QM2_Val_POD01_Power',
-    'QM2_Val_POD02_Power',
-    'QM2_Val_POD03_Power',
-    'QM2_Val_POD04_Power'], axis=1)
+features = cleaned_data.drop(['Time_Started',
+'Time_Ended','Total_Fuel_Consumption',
+'Avg Fuel Consumption',
+'QM2_Boiler_Aft_Usage_Mass_Flow',
+'QM2_Boiler_Fwd_Usage_Mass_Flow',
+'QM2_DG01_Usage_Mass_Flow',
+'QM2_DG02_Usage_Mass_Flow',
+'QM2_DG03_Usage_Mass_Flow',
+'QM2_DG04_Usage_Mass_Flow',
+'QM2_GT01_Usage_Mass_Flow',
+'QM2_GT02_Usage_Mass_Flow',
+'QM2_Val_POD01_Power',
+'QM2_Val_POD02_Power',
+'QM2_Val_POD03_Power',
+'QM2_Val_POD04_Power'
+    ], axis=1)
 target = cleaned_data['Total_Fuel_Consumption']
 
 # Splitting the Data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
 
 # Model Building: Use RandomForestRegressor
-model = RandomForestRegressor(random_state=42)
+model = RandomForestRegressor(random_state=None)
 
 # Model Training
 model.fit(X_train, y_train)
@@ -75,14 +81,15 @@ def predict_total_fuel_consumption(input_features):
 # Example Usage
 # Example Usage
 input_features = {
-   
-    'QM2_NAV_Latitude': 44.0,
-    'QM2_NAV_Longitude': -60.0,
+    'QM2_Val_POD01_Power': 6.5,
+    'QM2_Val_POD02_Power': 6.6,
+    'QM2_Val_POD03_Power': 6.6,
+    'QM2_Val_POD04_Power': 6.6,
     'QM2_Ship_Outside_Pressure': 1000,
-    'QM2_NAV_STW_Longitudinal': 17.0,
+    'QM2_NAV_STW_Longitudinal': 24.0,
     'QM2_Ship_Outside_Temperature': 15,
-    'Distance_nautical_miles': 40,
-    'Departure_Arrival':0,
+    'Distance_nautical_miles': 3160,
+    'Departure_Arrival':1,
     'Year':2023
 }
 

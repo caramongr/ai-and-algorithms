@@ -13,17 +13,14 @@ from tensorflow.keras.utils import plot_model
 data = pd.read_excel('MasterDataFile.xlsx')
 data['Departure_Arrival'] = data['Departure_Arrival'].map({'GBSOU - USNYC': 0, 'USNYC - GBSOU': 1})
 
-#filtra
+# Filter data
 data = data[data['QM2_NAV_STW_Longitudinal'] >= 8]
-
-data = data.dropna()  # Option 1: Drop rows with NaN values
+data = data.dropna()  # Drop rows with NaN values
 
 # Selecting specific features for training
-feature_columns = ['QM2_NAV_Latitude', 'QM2_NAV_Longitude', 'QM2_Ship_Outside_Pressure', 
+feature_columns = [ 'QM2_Ship_Outside_Pressure', 
                    'QM2_NAV_STW_Longitudinal', 'QM2_Ship_Outside_Temperature', 
-                   'Distance_nautical_miles', 'Departure_Arrival', 'Year',
-                #    'QM2_Boiler_Aft_Usage_Mass_Flow','QM2_Boiler_Fwd_Usage_Mass_Flow','QM2_DG01_Usage_Mass_Flow','QM2_DG02_Usage_Mass_Flow','QM2_DG03_Usage_Mass_Flow','QM2_DG04_Usage_Mass_Flow','QM2_GT01_Usage_Mass_Flow','QM2_GT02_Usage_Mass_Flow','QM2_Val_POD01_Power','QM2_Val_POD02_Power','QM2_Val_POD03_Power','QM2_Val_POD04_Power'
-                   ]
+                   'Distance_nautical_miles', 'Departure_Arrival', 'Year']
 features = data[feature_columns]
 target = data['Total_Fuel_Consumption']
 
@@ -45,17 +42,8 @@ model.add(LSTM(50, activation='relu', input_shape=(1, X_train_scaled.shape[2])))
 model.add(Dense(1))
 model.compile(optimizer='adam', loss='mse')
 
-# model = Sequential()
-# model.add(LSTM(50, activation='relu', return_sequences=True, input_shape=(1, X_train_scaled.shape[2])))
-# model.add(LSTM(50, activation='relu', return_sequences=True))
-# model.add(LSTM(50, activation='relu'))  # You can add more layers if needed
-# model.add(Dense(1))
-# model.compile(optimizer='adam', loss='mse')
-# model.save('rnn_model')
-
-
 # Train the model
-history = model.fit(X_train_scaled, y_train, epochs=100, verbose=0, validation_data=(X_test_scaled, y_test))
+history = model.fit(X_train_scaled, y_train, epochs=400, verbose=0, validation_data=(X_test_scaled, y_test))
 
 # Evaluate the model
 y_pred = model.predict(X_test_scaled)
@@ -73,21 +61,25 @@ def predict_rnn(input_features):
 
 # Example Usage
 input_features = {
-    'QM2_NAV_Latitude': 44.0,
-    'QM2_NAV_Longitude': -60.0,
+    # 'QM2_NAV_Latitude': 44.0,
+    # 'QM2_NAV_Longitude': -60.0,
     'QM2_Ship_Outside_Pressure': 1000,
-    'QM2_NAV_STW_Longitudinal': 17.0,
+    'QM2_NAV_STW_Longitudinal': 20.0,
     'QM2_Ship_Outside_Temperature': 15,
     'Distance_nautical_miles': 40,
     'Departure_Arrival': 0,
-    'Year': 2022
+    'Year': 2023
 }
 
+# Initialize the total fuel consumption variable
+Voyagea_Fuel_Consumption = 0
 
-predicted_consumption = predict_rnn(input_features)
-print(f"Predicted Total Fuel Consumption: {predicted_consumption}")
+# Loop n times
+for _ in range(83):
+    predicted_consumption = predict_rnn(input_features)
+    Voyagea_Fuel_Consumption += predicted_consumption
 
-plot_model(model, to_file='rnn_model.png', show_shapes=True, show_layer_names=True)
+print(f"Voyagea Total Fuel Consumption: {Voyagea_Fuel_Consumption}")
 
 # Plotting actual vs predicted values
 plt.figure(figsize=(10, 6))
@@ -107,3 +99,6 @@ plt.ylabel('Loss')
 plt.title('Training and Validation Loss Over Epochs')
 plt.legend()
 plt.show()
+
+# Save the model architecture as an image
+plot_model(model, to_file='rnn_model.png', show_shapes=True, show_layer_names=True)

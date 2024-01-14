@@ -8,26 +8,23 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import plot_tree
 
 # Load your data (replace 'MasterDataFile.xlsx' with your actual file path)
-data = pd.read_excel('SummaryDataFile.xlsx')
+data = pd.read_excel('SummaryDataFile-mod.xlsx')
 
 
 data['Departure_Arrival'] = data['Departure_Arrival'].map({'GBSOU - USNYC': 0, 'USNYC - GBSOU': 1})
 
+# data = data[data['QM2_NAV_STW_Longitudinal'] >= 8]
 
 # Data Preprocessing: Drop rows with missing values
 cleaned_data = data.dropna()
 
 # Feature Selection: Exclude non-numeric and target variable columns
-features = cleaned_data.drop(['Time_Started', 'Time_Ended','Total_Fuel_Consumption', 'Avg Fuel Consumption', 'QM2_Boiler_Aft_Usage_Mass_Flow','QM2_Boiler_Fwd_Usage_Mass_Flow', 'QM2_DG01_Usage_Mass_Flow',
-    'QM2_DG02_Usage_Mass_Flow',
-    'QM2_DG03_Usage_Mass_Flow',
-    'QM2_DG04_Usage_Mass_Flow',
-    'QM2_GT01_Usage_Mass_Flow',
-    'QM2_GT02_Usage_Mass_Flow',
-    # 'QM2_Val_POD01_Power',
-    # 'QM2_Val_POD02_Power',
-    # 'QM2_Val_POD03_Power',
-    # 'QM2_Val_POD04_Power'
+features = cleaned_data.drop(['Time_Started',
+'Time_Ended','Total_Fuel_Consumption',
+'Avg Fuel Consumption',
+# 'QM2_Boiler_Aft_Usage_Mass_Flow',
+# 'QM2_Boiler_Fwd_Usage_Mass_Flow',
+ 'Departure_Arrival'
     ], axis=1)
 target = cleaned_data['Total_Fuel_Consumption']
 
@@ -35,7 +32,7 @@ target = cleaned_data['Total_Fuel_Consumption']
 X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
 
 # Model Building: Use RandomForestRegressor
-model = RandomForestRegressor(random_state=42)
+model = RandomForestRegressor(random_state=None)
 
 # Model Training
 model.fit(X_train, y_train)
@@ -75,18 +72,23 @@ def predict_total_fuel_consumption(input_features):
 # Example Usage
 # Example Usage
 input_features = {
-   
-    # 'QM2_NAV_Latitude': 44.0,
-    # 'QM2_NAV_Longitude': -60.0,
-    'QM2_Val_POD01_Power': 6.5,
-    'QM2_Val_POD02_Power': 6.6,
-    'QM2_Val_POD03_Power': 6.6,
-    'QM2_Val_POD04_Power': 6.6,
-    'QM2_Ship_Outside_Pressure': 1000,
-    'QM2_NAV_STW_Longitudinal': 24.0,
-    'QM2_Ship_Outside_Temperature': 15,
-    'Distance_nautical_miles': 3160,
-    'Departure_Arrival':1,
+'QM2_Boiler_Aft_Usage_Mass_Flow':20,
+'QM2_Boiler_Fwd_Usage_Mass_Flow':18, 
+'QM2_DG01_Usage_Mass_Flow': 123,
+'QM2_DG02_Usage_Mass_Flow': 147,
+'QM2_DG03_Usage_Mass_Flow': 176,
+'QM2_DG04_Usage_Mass_Flow': 165,
+'QM2_GT01_Usage_Mass_Flow': 62,
+'QM2_GT02_Usage_Mass_Flow': 16,
+    'QM2_Val_POD01_Power': 7.4,
+    'QM2_Val_POD02_Power': 7.5,
+    'QM2_Val_POD03_Power': 7.0,
+    'QM2_Val_POD04_Power': 7.1,
+    'QM2_Ship_Outside_Pressure': 1015,
+    'QM2_NAV_STW_Longitudinal': 20.0,
+    'QM2_Ship_Outside_Temperature': 12,
+    'Distance_nautical_miles': 3200,
+    # 'Departure_Arrival':1,
     'Year':2023
 }
 
