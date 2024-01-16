@@ -10,7 +10,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.utils import plot_model
 
 # Load data
-data = pd.read_excel('MasterDataFile.xlsx')
+# data = pd.read_excel('MasterDataFile.xlsx')
+data = pd.read_excel('1hr-step-MasterDataFile.xlsx')
 data['Departure_Arrival'] = data['Departure_Arrival'].map({'GBSOU - USNYC': 0, 'USNYC - GBSOU': 1})
 
 #filtra
@@ -73,14 +74,25 @@ def predict_rnn(input_features):
 
 # Example Usage
 input_features = {
-    'QM2_NAV_Latitude': 44.0,
-    'QM2_NAV_Longitude': -60.0,
-    'QM2_Ship_Outside_Pressure': 1000,
+    # 'QM2_NAV_Latitude': 44.0,
+    # 'QM2_NAV_Longitude': -60.0,
+    # 'QM2_Ship_Outside_Pressure': 1000,
+    # 'QM2_NAV_STW_Longitudinal': 17.0,
+    # 'QM2_Ship_Outside_Temperature': 15,
+    # 'Distance_nautical_miles': 40,
+    # 'Departure_Arrival': 0,
+    # 'Year': 2022
+
+
+    'QM2_NAV_Latitude': 49.8,
+    'QM2_NAV_Longitude': -4.07,
+    'QM2_Ship_Outside_Pressure': 1011.85,
     'QM2_NAV_STW_Longitudinal': 17.0,
-    'QM2_Ship_Outside_Temperature': 15,
-    'Distance_nautical_miles': 40,
-    'Departure_Arrival': 0,
-    'Year': 2022
+    'QM2_Ship_Outside_Temperature': 22.8,
+    'Distance_nautical_miles': 21.46,
+    'Departure_Arrival':0,
+    'Year':2022
+
 }
 
 

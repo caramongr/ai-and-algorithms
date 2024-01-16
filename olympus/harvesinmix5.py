@@ -19,7 +19,7 @@ def haversine(lat1, lon1, lat2, lon2):
     return km
 
 # Load the dataset
-df = pd.read_excel('M238.xlsx')
+df = pd.read_excel('M238b.xlsx')
 
 # Convert 'Time' column to datetime and calculate the time difference (step) in seconds
 df['Time'] = pd.to_datetime(df['Time'])
@@ -50,4 +50,4 @@ df['Total_Fuel_Consumption'] = df['Avg Fuel Consumption'] * df['step'] / 3600
 df.drop(columns=['Distance_km','step'], inplace=True)
 
 # Save the results to a new Excel file
-df.to_excel('M238-cal.xlsx', index=False)
+df.to_excel('M238b-cal.xlsx', index=False)

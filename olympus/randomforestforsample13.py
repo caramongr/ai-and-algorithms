@@ -8,8 +8,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import plot_tree
 
 # Load your data (replace 'MasterDataFile.xlsx' with your actual file path)
-data = pd.read_excel('MasterDataFile.xlsx')
-
+# data = pd.read_excel('MasterDataFile.xlsx')
+data = pd.read_excel('1hr-step-MasterDataFile.xlsx')
 
 data['Departure_Arrival'] = data['Departure_Arrival'].map({'GBSOU - USNYC': 0, 'USNYC - GBSOU': 1})
 
@@ -68,24 +68,24 @@ def predict_total_fuel_consumption(input_features):
 # Example Usage
 # Example Usage
 input_features = {
-    'QM2_Boiler_Aft_Usage_Mass_Flow': 0.2,
-    'QM2_Boiler_Fwd_Usage_Mass_Flow': 0.1,
-    'QM2_DG01_Usage_Mass_Flow': 2.5,
-    'QM2_DG02_Usage_Mass_Flow': 2.4,
-    'QM2_DG03_Usage_Mass_Flow': 2.3,
-    'QM2_DG04_Usage_Mass_Flow': 2.2,
-    'QM2_GT01_Usage_Mass_Flow': 1.1,
-    'QM2_GT02_Usage_Mass_Flow': 1.0,
+    'QM2_Boiler_Aft_Usage_Mass_Flow': 0.174,
+    'QM2_Boiler_Fwd_Usage_Mass_Flow': 0.13,
+    'QM2_DG01_Usage_Mass_Flow': 2.4,
+    'QM2_DG02_Usage_Mass_Flow': 2.51,
+    'QM2_DG03_Usage_Mass_Flow': 2.51,
+    'QM2_DG04_Usage_Mass_Flow': 2.51,
+    'QM2_GT01_Usage_Mass_Flow': 0,
+    'QM2_GT02_Usage_Mass_Flow': 0,
     # 'QM2_NAV_Latitude': 42.0,
     # 'QM2_NAV_Longitude': -60.0,
     'QM2_Ship_Outside_Pressure': 1000,
-    'QM2_Val_POD01_Power': 6.5,
-    'QM2_Val_POD02_Power': 6.6,
-    'QM2_Val_POD03_Power': 6.7,
-    'QM2_Val_POD04_Power': 6.8,
-    'QM2_NAV_STW_Longitudinal': 18.0,
-    'QM2_Ship_Outside_Temperature': 15,
-    'Distance_nautical_miles': 40,
+    'QM2_Val_POD01_Power': 8,
+    'QM2_Val_POD02_Power': 8.2,
+    'QM2_Val_POD03_Power': 7.8,
+    'QM2_Val_POD04_Power': 8,
+    'QM2_NAV_STW_Longitudinal': 23.5,
+    'QM2_Ship_Outside_Temperature': 16.8,
+    'Distance_nautical_miles': 22.78,
     'Departure_Arrival':0,
     'Year':2023
 }

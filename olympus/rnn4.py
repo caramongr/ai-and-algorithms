@@ -9,8 +9,10 @@ from tensorflow.keras.layers import LSTM, Dense
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.utils import plot_model
 
+# print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
+
 # Load data
-data = pd.read_excel('MasterDataFile.xlsx')
+data = pd.read_excel('1hr-step-MasterDataFile.xlsx')
 data['Departure_Arrival'] = data['Departure_Arrival'].map({'GBSOU - USNYC': 0, 'USNYC - GBSOU': 1})
 
 # Filter data

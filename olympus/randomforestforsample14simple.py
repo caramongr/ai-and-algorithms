@@ -8,7 +8,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import plot_tree
 
 # Load your data (replace 'MasterDataFile.xlsx' with your actual file path)
-data = pd.read_excel('MasterDataFile.xlsx')
+# data = pd.read_excel('MasterDataFile.xlsx')
+data = pd.read_excel('1hr-step-MasterDataFile.xlsx')
+
 
 
 data['Departure_Arrival'] = data['Departure_Arrival'].map({'GBSOU - USNYC': 0, 'USNYC - GBSOU': 1})
@@ -76,14 +78,14 @@ def predict_total_fuel_consumption(input_features):
 # Example Usage
 input_features = {
    
-    'QM2_NAV_Latitude': 44.0,
-    'QM2_NAV_Longitude': -60.0,
-    'QM2_Ship_Outside_Pressure': 1000,
+    'QM2_NAV_Latitude': 49.8,
+    'QM2_NAV_Longitude': -4.07,
+    'QM2_Ship_Outside_Pressure': 1011.85,
     'QM2_NAV_STW_Longitudinal': 17.0,
-    'QM2_Ship_Outside_Temperature': 15,
-    'Distance_nautical_miles': 40,
+    'QM2_Ship_Outside_Temperature': 22.8,
+    'Distance_nautical_miles': 21.46,
     'Departure_Arrival':0,
-    'Year':2023
+    'Year':2022
 }
 
 
