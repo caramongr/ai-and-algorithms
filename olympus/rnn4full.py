@@ -75,7 +75,7 @@ def predict_rnn(input_features):
     input_scaled = input_scaled.reshape((1, 1, input_scaled.shape[1]))
     return model.predict(input_scaled)[0][0]
 
-# Example Usage
+# Example Usages
 input_features = {
     'QM2_Boiler_Aft_Usage_Mass_Flow': 0.174,
     'QM2_Boiler_Fwd_Usage_Mass_Flow': 0.13,
