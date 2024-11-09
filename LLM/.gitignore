@@ -1,0 +1,6 @@
+# .gitignore
+.env
+websum.py
+weather.py
+test.py
+day.py
